@@ -2,11 +2,12 @@
 
 A high-performance Python-based AI agent managed with **uv** and powered by the **Google Gemini 2.0 Flash** model.
 
-Based on: https://www.boot.dev/courses/build-ai-agent-python 
-
 Note that some part of the code is commented out. That's because as I developed further, I kept the old changes for anyone who wants to understand how my logic building ability moved.
 
 It's important to return a success string so that our LLM knows that the action it took actually worked. Feedback loops, feedback loops, feedback loops!
+
+**Big Note:** This project doesn't have all the security and safety features that a production AI agent would have. This is for learning purposes only. Do not give this program to others for them to use blindly. Because this google gemini LLM an run arbitrary code that we place (or it places) in the working directory... so be careful. As long as you use this AI agent only for the simple tasks you should be fine.
+Moreover, I use a 30-second timeout to prevent it from running indefinitely. USE AT YOUR OWN RISK.
 
 ##  Project Structure
 - `main.py`: The primary AI Agent entry point.
@@ -15,6 +16,7 @@ It's important to return a success string so that our LLM knows that the action 
   - `get_files_info.py`: Directory scanning logic.
   - `get_file_content.py`: Secure file reading and truncation logic.
   - `write_file.py`: Secure file creation and overwriting logic.
+  - `run_python_file.py`: Capability to execute Python scripts as subprocesses.
 - `calculator/`: A test project for the agent to interact with.
   - `main.py`: CLI entry point for the calculator.
   - `lorem.txt`: 20KB test file for truncation verification.
@@ -69,7 +71,11 @@ Empowers the agent to create new files or overwrite existing ones.
 - **Safety Checks:** Prevents overwriting actual directories and blocks any write attempts outside the `working_directory`.
 - **Feedback Loop:** Returns a clear success message including the character count to confirm the operation.
 
-
+### 4. Run Python File 
+Allows the agent to execute code within the working directory.
+- **Subprocess Isolation:** Runs files via `subprocess.run` with captured `stdout` and `stderr`.
+- **Safety Timeout:** A **30-second timeout** is enforced to prevent infinite loops or hangs.
+- **Validation:** Only executes files ending in `.py` that are within the permitted `working_directory`.
 
 ---
 
@@ -80,6 +86,7 @@ The `main.py` script and standalone test modules allow for manual verification. 
 - `uv run test_get_files_info.py`: Verifies directory listing.
 - `uv run test_get_file_content.py`: Verifies file reading and truncation logic.
 - `uv run test_write_file.py`: Verifies secure writing and directory creation.
+- `uv run test_run_python_file.py`: Verifies subprocess execution and security blocks.
 
 ### Example Manual Test in `main.py`
 python
@@ -98,12 +105,10 @@ python
 - tests.py: file_size= 1353 bytes, is_directory=False
 
 **Truncation Example:**
-text
 [...File "lorem.txt" truncated at 10000 characters]
 
 
 **Write File Test Results:**
-text
 shubham@shubham-VirtualBox:~/Shubham_Ubuntu_AI_Agent$ uv run test_write_file.py
 Successfully wrote to "lorem.txt" (28 characters written)
 Successfully wrote to "pkg/morelorem.txt" (26 characters written)
@@ -111,9 +116,14 @@ Error: Cannot write to "/tmp/temp.txt" as it is outside the permitted working di
 
 
 **Security Violation:**
-text
 Error: Access Denied. "/bin" is outside of "/home/shubham/.../calculator"
 
+**Run Python File Results:**
+STDOUT: Usage: main.py <expression>
+STDOUT: Result: 8
+STDOUT: Ran 5 tests in 0.001s OK
+Error: Cannot execute "../main.py" as it is outside the permitted working directory
+Error: "lorem.txt" is not a Python file
 
 ---
 
