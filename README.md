@@ -83,18 +83,11 @@ The `main.py` script and standalone test modules allow for manual verification. 
 
 ### Example Manual Test in `main.py`
 python
-# --- Manual Test Suite ---
-# 1. Check directory listing:
-# print(get_files_info("calculator", "."))
-
-# 2. Check file reading:
-# print(get_file_content("calculator", "main.py"))
-
-# 3. Check writing (allowed):
-# print(write_file("calculator", "pkg/notes.txt", "New agent notes"))
-
-# 4. Check writing (blocked):
-# print(write_file("calculator", "/etc/passwd", "evil content"))
+#  Manual Test Suite 
+ 1. Check directory listing: print(get_files_info("calculator", "."))
+ 2. Check file reading:print(get_file_content("calculator", "main.py"))
+ 3. Check writing (allowed): print(write_file("calculator", "pkg/notes.txt", "New agent notes"))
+ 4. Check writing (blocked): print(write_file("calculator", "/etc/passwd", "evil content"))
 
 
 ### Expected Outputs & Actual Results
