@@ -21,6 +21,6 @@ def get_files_info(working_directory, directory="."):
         content_path = os.path.join(abs_directory, content_item)
         is_dir = os.path.isdir(content_path)
         size = os.path.getsize(content_path)
-        print(f"{content_item} - {'Directory' if is_dir else 'File'}")
+        #print(f"{content_item} - {'Directory' if is_dir else 'File'}")
         final_response += f"- {content_item}: file_size= {size} bytes, is_directory={is_dir}\n"
     return final_response

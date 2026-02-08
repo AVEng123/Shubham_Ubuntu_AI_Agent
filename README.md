@@ -80,13 +80,18 @@ print(get_files_info("calculator", "/bin"))
 ###  Expected Outputs
 When running these tests via uv run main.py, you should see results similar to these:
 
-Current Directory (.):
-- main.py: file_size=740 bytes, is_dir=False
-- pkg: file_size=4096 bytes, is_dir=True
-- tests.py: file_size=1353 bytes, is_dir=False
+Contents of the root directory:
+- main.py: file_size= 740 bytes, is_directory=False
+- pkg: file_size= 4096 bytes, is_directory=True
+- tests.py: file_size= 1353 bytes, is_directory=False
 
-Security Violation (/bin):
-Error: Access Denied. "/bin" is outside of "/home/shubham/.../calculator"
+Contents of the calculator/pkg directory:
+- __pycache__: file_size= 4096 bytes, is_directory=True
+- calculator.py: file_size= 1752 bytes, is_directory=False
+- render.py: file_size= 403 bytes, is_directory=False
+
+Contents of the /bin directory:
+Error: Access Denied. "/bin" is outside of "/home/shubham/Shubham_Ubuntu_AI_Agent/calculator"
 
 
 ###  Functions Directory
