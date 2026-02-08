@@ -1,6 +1,7 @@
 # Shubham's Ubuntu AI Agent
 
 A high-performance Python-based AI agent managed with **uv** and powered by the **Google Gemini 2.0 Flash** model.
+Based on: https://www.boot.dev/courses/build-ai-agent-python 
 
 ## Project Structure
 - `main.py`: The primary AI Agent entry point.
@@ -70,14 +71,14 @@ The \`main.py\` script and standalone test modules allow for manual verification
 ### Example Manual Test in \`main.py\`
 \`\`\`python
 # --- Manual Test Suite ---
-# Uncomment to check directory listing:
-# print(get_files_info("calculator", "."))
+ Uncomment to check directory listing:
+ print(get_files_info("calculator", "."))
 
-# Uncomment to check file reading:
-# print(get_file_content("calculator", "main.py"))
+ Uncomment to check file reading:
+ print(get_file_content("calculator", "main.py"))
 
-# Uncomment to check truncation:
-# print(get_file_content("calculator", "lorem.txt"))
+ Uncomment to check truncation:
+ print(get_file_content("calculator", "lorem.txt"))
 \`\`\`
 
 ### Expected Outputs
