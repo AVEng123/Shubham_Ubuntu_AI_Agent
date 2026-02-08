@@ -15,6 +15,7 @@ A high-performance Python-based AI agent managed with **uv** and powered by the 
 Create a `.env` file:
 ```text
 GEMINI_API_KEY=your_api_key_here
+```
 
 ## 🛠 Tech Stack
 - **Environment:** Ubuntu Linux
