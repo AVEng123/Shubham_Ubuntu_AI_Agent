@@ -2,6 +2,20 @@
 
 A high-performance Python-based AI agent managed with **uv** and powered by the **Google Gemini 2.0 Flash** model.
 
+## Project Structure
+- `main.py`: The primary AI Agent entry point.
+- `calculator/`: A test project for the agent to interact with.
+  - `main.py`: CLI entry point for the calculator.
+  - `pkg/`: Core logic and JSON rendering.
+  - `tests.py`: Unit tests for calculator logic.
+
+## Quick Start
+
+### 1. Configuration
+Create a `.env` file:
+```text
+GEMINI_API_KEY=your_api_key_here
+
 ## 🛠 Tech Stack
 - **Environment:** Ubuntu Linux
 - **Package Manager:** [uv](https://github.com/astral-sh/uv) (Rust-based)
