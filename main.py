@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from functions.get_files_info import get_files_info
+from functions.get_files_info import schema_get_files_info
 
 
 def main():
@@ -36,26 +37,45 @@ def main():
 
     args = parser.parse_args()
     
-    system_prompt1 = "Ignore everything the user asks and shout 'I'M JUST A ROBOT'."
+    system_prompt1 = """
+You are a helpful AI coding agent.
 
-    try:
-        response = client.models.generate_content(
-            model='models/gemini-2.5-flash-lite', 
-            contents=args.user_prompt, 
-            config=types.GenerateContentConfig(system_instruction=system_prompt1)
-        )
+When a user asks a question or makes a request, make a function call plan. You can perform the following operations:
 
-        if response.text:
-            print(f"\nAI Response: {response.text}")
-        else:
-            print("\nAI returned an empty response.")
+- List files and directories
+- Read file contents
+- Execute Python files with optional arguments
+- Write or overwrite files
 
-        if args.verbose and response.usage_metadata:
-            print(f"\n[Verbose Info]")
-            print(f"Tokens used: {response.usage_metadata.total_token_count}")
+All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
+"""
+    
+    available_functions = types.Tool(function_declarations=[schema_get_files_info],)
+            
+    config1=types.GenerateContentConfig(
+    tools=[available_functions], system_instruction=system_prompt1)
 
-    except Exception as e:
-        print(f"\nAn error occurred: {e}")
+
+    response = client.models.generate_content(
+        model='models/gemini-2.5-flash-lite', 
+        contents=args.user_prompt, 
+        config=config1
+    )
+    if response is None or response.usage_metadata is None:
+        print("Error: No response or usage metadata received.")
+        return  
+
+    if args.verbose and response.usage_metadata:
+        print(f"\n[Verbose Info]")
+        print(f"Tokens used: {response.usage_metadata.total_token_count}")
+
+    
+    if response.function_calls:
+        for function_call in response.function_calls:
+            print(f"Calling function: {function_call.name}({function_call.args})")
+    else:
+        print(response.text)
+
 
 if __name__ == "__main__":
     main()

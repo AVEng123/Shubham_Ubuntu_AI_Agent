@@ -189,6 +189,44 @@ Error: "lorem.txt" is not a Python file
 
 ---
 
+
+###  Agentic Orchestration: Function Calling
+The agent has been upgraded from a standard chatbot to a Tool-Use Agent. It no longer just talks; it decides which tools to use based on the user's intent.
+
+**How it Works**
+
+1. Function Declaration: We provide the LLM with a JSON-like schema (types.FunctionDeclaration) describing our Python functions (arguments, types, and descriptions).
+
+2. System Instruction: The agent is grounded with a prompt that forces it to create a "Function Call Plan" instead of just answering directly.
+
+3. Intent Extraction: The LLM returns a FunctionCall object containing the name of the tool and the specific arguments (e.g., directory='pkg').
+
+4. Validation: The agent recognizes when a request is outside its scope (e.g., asking about the Himalayas) and correctly refuses based on the system instructions.
+
+**Current Toolset (Schemas)**
+1. get_files_info: Categorizes files and directories with metadata.
+
+2. get_file_content: Reads the text content of a file (with safety truncation).
+
+3. write_file: Creates or overwrites files within the working directory.
+
+4. run_python_file: Executes Python scripts as subprocesses with optional arguments.
+
+**Example Workflow**
+User: "Read the contents of main.py"
+
+LLM Output: Calling function: get_file_content({'file_path': 'main.py'})
+
+User: "Write 'hello' to main.txt"
+
+LLM Output: Calling function: write_file({'file_path': 'main.txt', 'content': 'hello'})
+
+User: "Run main.py"
+
+LLM Output: Calling function: run_python_file({'file_path': 'main.py'})
+
+**Logic**: The main.py script intercepts these calls, validating that all arguments (including nested lists for script arguments) match the defined schema before the agent proceeds.
+
 ## Project Features
 - **Fast Execution:** Leveraging `uv` for near-instant dependency resolution.
 - **Token Tracking:** Real-time metadata monitoring for cost and performance.
