@@ -2,6 +2,8 @@
 
 A high-performance Python-based AI agent managed with **uv** and powered by the **Google Gemini 2.0 Flash** model.
 Based on: https://www.boot.dev/courses/build-ai-agent-python 
+Note that some part of the code is commented out. That's because as I developed further, I kept the old changes for
+anyone who wants to understand how my logic building ability moved.
 
 ## Project Structure
 - `main.py`: The primary AI Agent entry point.
@@ -70,7 +72,7 @@ The main.py script and standalone test modules allow for manual verification. **
 
 ### Example Manual Test in main.py
 python
-# --- Manual Test Suite ---
+# Manual Test Suite 
  Uncomment to check directory listing:
  print(get_files_info("calculator", "."))
 
