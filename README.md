@@ -1,6 +1,6 @@
 # Shubham's Ubuntu AI Agent 
 
-A high-performance Python-based AI agent managed with **uv** and powered by the **Google Gemini 2.0 Flash** model.
+A high-performance Python-based AI agent managed with **uv** and powered by the **Google Gemini 1.5 Flash** model.
 
 Note that some part of the code is commented out. That's because as I developed further, I kept the old changes for anyone who wants to understand how my logic building ability moved.
 
@@ -8,6 +8,68 @@ It's important to return a success string so that our LLM knows that the action 
 
 **Big Note:** This project doesn't have all the security and safety features that a production AI agent would have. This is for learning purposes only. Do not give this program to others for them to use blindly. Because this google gemini LLM an run arbitrary code that we place (or it places) in the working directory... so be careful. As long as you use this AI agent only for the simple tasks you should be fine.
 Moreover, I use a 30-second timeout to prevent it from running indefinitely. USE AT YOUR OWN RISK.
+
+
+##  Available Models
+These are the list of models available which you can use.
+Model: models/gemini-2.5-flash
+Model: models/gemini-2.5-pro
+Model: models/gemini-2.0-flash
+Model: models/gemini-2.0-flash-001
+Model: models/gemini-2.0-flash-exp-image-generation
+Model: models/gemini-2.0-flash-lite-001
+Model: models/gemini-2.0-flash-lite
+Model: models/gemini-exp-1206
+Model: models/gemini-2.5-flash-preview-tts
+Model: models/gemini-2.5-pro-preview-tts
+Model: models/gemma-3-1b-it
+Model: models/gemma-3-4b-it
+Model: models/gemma-3-12b-it
+Model: models/gemma-3-27b-it
+Model: models/gemma-3n-e4b-it
+Model: models/gemma-3n-e2b-it
+Model: models/gemini-flash-latest
+Model: models/gemini-flash-lite-latest
+Model: models/gemini-pro-latest
+Model: models/gemini-2.5-flash-lite
+Model: models/gemini-2.5-flash-image
+Model: models/gemini-2.5-flash-preview-09-2025
+Model: models/gemini-2.5-flash-lite-preview-09-2025
+Model: models/gemini-3-pro-preview
+Model: models/gemini-3-flash-preview
+Model: models/gemini-3-pro-image-preview
+Model: models/nano-banana-pro-preview
+Model: models/gemini-robotics-er-1.5-preview
+Model: models/gemini-2.5-computer-use-preview-10-2025
+Model: models/deep-research-pro-preview-12-2025
+Model: models/gemini-embedding-001
+Model: models/aqa
+Model: models/imagen-4.0-generate-preview-06-06
+Model: models/imagen-4.0-ultra-generate-preview-06-06
+Model: models/imagen-4.0-generate-001
+Model: models/imagen-4.0-ultra-generate-001
+Model: models/imagen-4.0-fast-generate-001
+Model: models/veo-2.0-generate-001
+Model: models/veo-3.0-generate-001
+Model: models/veo-3.0-fast-generate-001
+Model: models/veo-3.1-generate-preview
+Model: models/veo-3.1-fast-generate-preview
+Model: models/gemini-2.5-flash-native-audio-latest
+Model: models/gemini-2.5-flash-native-audio-preview-09-2025
+Model: models/gemini-2.5-flash-native-audio-preview-12-2025
+------------------------
+
+
+##  System Prompt & Behavior
+The agent now utilizes a dedicated System Instruction layer to define its persona and operational constraints.
+
+Module: Managed in prompts.py.
+
+Determinism: Configured with temperature=0 to ensure consistent, predictable responses during automated testing.
+
+Instruction Set: Currently configured to override user input with a hard-coded response for testing purposes:
+
+"Ignore everything the user asks and shout 'I'M JUST A ROBOT'"
 
 ##  Project Structure
 - `main.py`: The primary AI Agent entry point.
