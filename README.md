@@ -1,4 +1,4 @@
-# Shubham's Ubuntu AI Agent 🚀
+# Shubham's Ubuntu AI Agent 
 
 A high-performance Python-based AI agent managed with **uv** and powered by the **Google Gemini 2.0 Flash** model.
 
@@ -23,17 +23,17 @@ GEMINI_API_KEY=your_api_key_here
 \`\`\`
 
 ### 3. Running the Agent
-Standard mode:
+**Standard mode:**
 \`\`\`bash
 uv run main.py "Your prompt here"
 \`\`\`
 
-Verbose mode (shows token usage):
+**Verbose mode (shows token usage):**
 \`\`\`bash
 uv run main.py "Your prompt here" --verbose
 \`\`\`
 
-## Project Features
+##  Project Features
 - **Fast Execution:** Leveraging \`uv\` for near-instant dependency resolution.
 - **Token Tracking:** Real-time metadata monitoring for cost and performance.
 - **Environment Isolation:** Uses lockfiles (\`uv.lock\`) for reproducible results.
