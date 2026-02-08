@@ -76,7 +76,8 @@ print(get_files_info("calculator", "pkg"))
 # 3. Test security (Outside working dir)
 print(get_files_info("calculator", "/bin"))
 
-Expected Outputs
+```
+###  Expected Outputs
 When running these tests via uv run main.py, you should see results similar to these:
 
 Current Directory (.):
@@ -88,6 +89,6 @@ Security Violation (/bin):
 Error: Access Denied. "/bin" is outside of "/home/shubham/.../calculator"
 
 
-Functions Directory
+###  Functions Directory
 functions/get_files_info.py: Contains the logic for path normalization and directory iteration.
 functions/__init__.py: Required for Python package resolution.
