@@ -1,23 +1,18 @@
-# Shubham's Ubuntu AI Agent 
+# Shubham's Ubuntu AI Agent
 
 A high-performance Python-based AI agent managed with **uv** and powered by the **Google Gemini 2.0 Flash** model.
 
 ## Project Structure
 - `main.py`: The primary AI Agent entry point.
+- `config.py`: Global settings, including `MAX_CHARS` for file reading.
+- `functions/`: Core toolset for the AI Agent.
+  - `get_files_info.py`: Directory scanning logic.
+  - `get_file_content.py`: Secure file reading and truncation logic.
 - `calculator/`: A test project for the agent to interact with.
   - `main.py`: CLI entry point for the calculator.
-  - `pkg/`: Core logic and JSON rendering.
-  - `tests.py`: Unit tests for calculator logic.
+  - `lorem.txt`: 20KB test file for truncation verification.
 
-## Quick Start
-
-### 1. Configuration
-Create a `.env` file:
-```text
-GEMINI_API_KEY=your_api_key_here
-```
-
-## 🛠 Tech Stack
+## Tech Stack
 - **Environment:** Ubuntu Linux
 - **Package Manager:** [uv](https://github.com/astral-sh/uv) (Rust-based)
 - **Model:** Gemini 2.0 Flash
@@ -32,7 +27,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 \`\`\`
 
 ### 2. Configuration
-Create a \`.env\` file in the root directory:
+Create a `.env` file in the root directory:
 \`\`\`text
 GEMINI_API_KEY=your_api_key_here
 \`\`\`
@@ -48,52 +43,64 @@ uv run main.py "Your prompt here"
 uv run main.py "Your prompt here" --verbose
 \`\`\`
 
-##  Project Features
-- **Fast Execution:** Leveraging \`uv\` for near-instant dependency resolution.
-- **Token Tracking:** Real-time metadata monitoring for cost and performance.
-- **Environment Isolation:** Uses lockfiles (\`uv.lock\`) for reproducible results.
+---
+
+## 🛠 AI Tools & Capabilities
+
+### 1. Get Files Info
+Scans directory structures within a restricted scope to ensure the AI explores the codebase safely.
+- **Security:** Uses \`os.path.commonpath\` to prevent access to system directories like \`/bin\`.
+
+### 2. Get File Content
+Allows the agent to read file contents as a string for analysis.
+- **Truncation:** Automatically caps reads at **10,000 characters** to protect token limits.
+- **Validation:** Only allows reading files within the permitted \`working_directory\`.
 
 
-##  Tooling: Get Files Info
-The agent has been granted the ability to scan directory structures within a restricted scope. This ensures the AI can explore the codebase without accessing sensitive system files.
 
-###  Security Guardrails
-We use `os.path.commonpath` to ensure the `target_dir` always resides within the `working_directory`.
-- **Valid:** `calculator/pkg` -> Allowed.
-- **Invalid:** `/bin` or `../` -> Blocked with an `Error: Access Denied` message.
+---
 
-### Manual Testing & Debugging
-The `main.py` script contains several pre-configured test cases for the `get_files_info` tool. To verify specific behaviors, you must **uncomment** the relevant lines in the `main()` function:
+## Manual Testing & Debugging
+The \`main.py\` script and standalone test modules allow for manual verification. **Many lines in the code are commented out by default;** you must uncomment them to run specific manual tests.
 
-```python
+### Test Files
+- \`uv run test_get_files_info.py\`: Verifies directory listing.
+- \`uv run test_get_file_content.py\`: Verifies file reading and truncation logic.
+
+### Example Manual Test in \`main.py\`
+\`\`\`python
 # --- Manual Test Suite ---
-# 1. Test current directory
-print(get_files_info("calculator", "."))
+# Uncomment to check directory listing:
+# print(get_files_info("calculator", "."))
 
-# 2. Test sub-directory
-print(get_files_info("calculator", "pkg"))
+# Uncomment to check file reading:
+# print(get_file_content("calculator", "main.py"))
 
-# 3. Test security (Outside working dir)
-print(get_files_info("calculator", "/bin"))
+# Uncomment to check truncation:
+# print(get_file_content("calculator", "lorem.txt"))
+\`\`\`
 
-```
-###  Expected Outputs
-When running these tests via uv run main.py, you should see results similar to these:
-
-Contents of the root directory:
+### Expected Outputs
+**Directory Listing (`.`):**
 - main.py: file_size= 740 bytes, is_directory=False
 - pkg: file_size= 4096 bytes, is_directory=True
 - tests.py: file_size= 1353 bytes, is_directory=False
 
-Contents of the calculator/pkg directory:
-- __pycache__: file_size= 4096 bytes, is_directory=True
-- calculator.py: file_size= 1752 bytes, is_directory=False
-- render.py: file_size= 403 bytes, is_directory=False
+**Truncation Example:**
+When reading \`lorem.txt\`, you should see a message at the end of the output indicating the file was shortened:
+\`\`\`text
+[...File "lorem.txt" truncated at 10000 characters]
+\`\`\`
 
-Contents of the /bin directory:
-Error: Access Denied. "/bin" is outside of "/home/shubham/Shubham_Ubuntu_AI_Agent/calculator"
+**Security Violation:**
+\`\`\`text
+Error: Access Denied. "/bin" is outside of "/home/shubham/.../calculator"
+\`\`\`
 
+---
 
-###  Functions Directory
-functions/get_files_info.py: Contains the logic for path normalization and directory iteration.
-functions/__init__.py: Required for Python package resolution.
+## Project Features
+- **Fast Execution:** Leveraging \`uv\` for near-instant dependency resolution.
+- **Token Tracking:** Real-time metadata monitoring for cost and performance.
+- **Environment Isolation:** Uses lockfiles (\`uv.lock\`) for reproducible results.
+
