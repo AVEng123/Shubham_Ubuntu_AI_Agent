@@ -1,5 +1,6 @@
 from functions.get_files_info import get_files_info
 from functions.get_files_contents import get_files_content
+from functions.write_file import write_file
 
 def main():
     working_directory = "calculator"
@@ -25,8 +26,7 @@ def main():
     print("Contents of the /bin directory:")
     print(bin_contents)
     print("\n")
-    """
-    
+   
     file_content = get_files_content(working_directory, "text.txt")
     print(file_content)
     
@@ -39,6 +39,12 @@ def main():
     file_content = get_files_content("calculator", "pkg/does_not_exist.py")
     print(f"Content of does_not_exist.py:\n{file_content}")
     
+    """
+    print(write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum"))
+    
+    print(write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet"))
+        
+    print(write_file("calculator", "/tmp/temp.txt", "this should not be allowed"))
     
 if __name__ == "__main__":
     main()
