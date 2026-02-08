@@ -4,9 +4,13 @@ import argparse
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from functions.get_files_info import get_files_info
 
 
 def main():
+    
+    """
+    
     load_dotenv()
     api_key = os.environ.get("GEMINI_API_KEY")
 
@@ -37,8 +41,7 @@ def main():
     if response is None or response.usage_metadata is None:
         print("No usage metadata available.")
         return
-
-    # Only print metadata if the flag was used
+    
     if args.verbose:
         print(f"User prompt: {args.user_prompt}")
         if response.usage_metadata:
@@ -46,6 +49,15 @@ def main():
             print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
             print(f"Total tokens: {response.usage_metadata.total_token_count}") 
     
-
+    """
+     #  print(get_files_info("calculator", "."))
+     #  print(get_files_info("calculator", "/bin"))
+    #  print(get_files_info("calculator", "../"))
         
-main()
+#main()
+
+ # print(get_files_info("calculator", "calculator/pkg"))
+ # print(get_files_info("calculator", "."))
+ 
+if __name__ == "__main__":
+    main()

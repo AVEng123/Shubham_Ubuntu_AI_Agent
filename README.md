@@ -52,3 +52,42 @@ uv run main.py "Your prompt here" --verbose
 - **Fast Execution:** Leveraging \`uv\` for near-instant dependency resolution.
 - **Token Tracking:** Real-time metadata monitoring for cost and performance.
 - **Environment Isolation:** Uses lockfiles (\`uv.lock\`) for reproducible results.
+
+
+##  Tooling: Get Files Info
+The agent has been granted the ability to scan directory structures within a restricted scope. This ensures the AI can explore the codebase without accessing sensitive system files.
+
+###  Security Guardrails
+We use `os.path.commonpath` to ensure the `target_dir` always resides within the `working_directory`.
+- **Valid:** `calculator/pkg` -> Allowed.
+- **Invalid:** `/bin` or `../` -> Blocked with an `Error: Access Denied` message.
+
+### Manual Testing & Debugging
+The `main.py` script contains several pre-configured test cases for the `get_files_info` tool. To verify specific behaviors, you must **uncomment** the relevant lines in the `main()` function:
+
+```python
+# --- Manual Test Suite ---
+# 1. Test current directory
+print(get_files_info("calculator", "."))
+
+# 2. Test sub-directory
+print(get_files_info("calculator", "pkg"))
+
+# 3. Test security (Outside working dir)
+print(get_files_info("calculator", "/bin"))
+
+Expected Outputs
+When running these tests via uv run main.py, you should see results similar to these:
+
+Current Directory (.):
+- main.py: file_size=740 bytes, is_dir=False
+- pkg: file_size=4096 bytes, is_dir=True
+- tests.py: file_size=1353 bytes, is_dir=False
+
+Security Violation (/bin):
+Error: Access Denied. "/bin" is outside of "/home/shubham/.../calculator"
+
+
+Functions Directory
+functions/get_files_info.py: Contains the logic for path normalization and directory iteration.
+functions/__init__.py: Required for Python package resolution.
